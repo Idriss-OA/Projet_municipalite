@@ -35,7 +35,7 @@
     margin: auto;
     padding: 40px;
     background: rgba(255,255,255,0.12);
-    border-radius: 20px;
+    border-radius: 5px;
 
     backdrop-filter: blur(15px) brightness(1.15);
     -webkit-backdrop-filter: blur(15px) brightness(1.15);
@@ -65,12 +65,12 @@
 .btn-big {
     width: 260px;
     padding: 14px;
-    border-radius: 14px;
+    border-radius: 5px;
     font-size: 18px;
     font-weight: 700;
-    color: white;
+    color: rgb(0, 0, 0);
 
-    background: rgba(0,123,255,0.25);
+    background: rgba(120,120,120,0.30); /* gris clair semi-transparent */
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.45);
 
@@ -79,9 +79,12 @@
 
 .btn-big:hover {
     transform: scale(1.07);
-    background: rgba(0,123,255,0.45);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    color: white;
+    background: rgba(60,60,60,0.55);  /* gris foncé */
+    border: 1px solid rgba(200,200,200,0.65); /* bordure grise */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
+
 
 .btn-container {
     display: flex;

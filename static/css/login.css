@@ -78,7 +78,7 @@ body::before {
     margin-top: 130px;
 
     background: rgba(255,255,255,0.12);
-    border-radius: 20px;
+    border-radius: 5px;
 
     backdrop-filter: blur(15px) brightness(1.12);
     -webkit-backdrop-filter: blur(15px) brightness(1.12);
@@ -99,7 +99,7 @@ body::before {
 input {
     width: 100%;
     padding: 13px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
 
     background: rgba(255,255,255,0.25);
@@ -116,7 +116,7 @@ input::placeholder {
 button {
     width: 100%;
     padding: 14px;
-    border-radius: 12px;
+    border-radius: 5px;
     font-size: 18px;
     font-weight: 700;
 

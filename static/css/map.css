@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f2f2f2;
+}
+
+.page-title {
+    text-align: center;
+    margin: 20px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+#map {
+    width: 100%;
+    height: 90vh;
+}
