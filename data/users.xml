@@ -1,0 +1,25 @@
+<users>
+    <user>
+        <username>admin</username>
+        <password>admin123</password>
+        <role>admin</role>
+    </user>
+
+    <user>
+        <username>employe</username>
+        <password>emp123</password>
+        <role>employe</role>
+    </user>
+
+    <user>
+        <username>chauffeur</username>
+        <password>drive123</password>
+        <role>chauffeur</role>
+    </user>
+
+    <user>
+        <username>client</username>
+        <password>client123</password>
+        <role>client</role>
+    </user>
+</users>

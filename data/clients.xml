@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<clients>
+    <client>
+        <username>najmeddine</username>
+        <email>najmsalem@gmail.com</email>
+        <password>najm2004</password>
+        <lieu>sfax</lieu>
+        <postal>3064</postal>
+        <cin>11156234</cin>
+        </client>
+    <client>
+        <username>idriss</username>
+        <email>ouledabdallahidriss@gmail.com</email>
+        <password>idriss2004</password>
+        <lieu>sfax</lieu>
+        <postal>3022</postal>
+        <cin>11191935</cin>
+        </client>
+    </clients>
