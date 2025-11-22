@@ -8,11 +8,25 @@
     <link rel="stylesheet" href="/static/css/map.css">
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    let userRole = "{{ role }}";   // admin, employe, chauffeur, client
+</script>
+
 </head>
 
 <body>
 
 <h2 class="page-title">🗺️ Gestion des Points de Collecte</h2>
+<button class="btn btn-info fw-bold shadow px-4 py-2"
+        style="margin-left: 20px; margin-bottom: 15px; font-size: 18px;"
+        onclick="window.location.href='/points/table'">
+    📄 Voir le tableau des points
+</button>
+
+
+<div id="points-table" style="width:90%; margin:auto; display:none;">
+</div>
+
 
 <div id="map"></div>
 

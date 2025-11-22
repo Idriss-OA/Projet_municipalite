@@ -1,0 +1,27 @@
+body {
+    background-image: url('/static/img/bg-admin.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.title-glow {
+    text-shadow: 0 0 12px rgba(255,255,255,0.8);
+    font-weight: 800;
+}
+
+table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead {
+    background: rgba(0,123,255,0.6);
+    color: white;
+}
+
+tbody tr:hover {
+    background: rgba(255,255,255,0.1);
+    transition: 0.3s;
+    cursor: pointer;
+}
