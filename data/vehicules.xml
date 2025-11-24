@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<vehicules>
+    <vehicule>
+        <matricule>156tunis2888</matricule>
+        <marque>mercedes</marque>
+        <capacite>1000</capacite>
+        <prix>100</prix>
+        <age>3</age>
+        </vehicule>
+    </vehicules>

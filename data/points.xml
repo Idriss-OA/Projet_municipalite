@@ -1,3 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <points>
+    <point>
+        <lat>34.776260922674325</lat>
+        <lng>10.749913897723655</lng>
+        <type>Verre</type>
+        <capacite>100</capacite>
+        <niveau>0</niveau>
+        </point>
     </points>

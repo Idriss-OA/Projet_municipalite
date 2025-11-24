@@ -1,3 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <employes>
+    <employe>
+        <cin>11132654</cin>
+        <nom>sboui</nom>
+        <prenom>youssef</prenom>
+        <email>sbouiyoussef@gmail.com</email>
+        <adresse>rte saltniya km 6</adresse>
+        <telephone>55124563</telephone>
+        <poste>municipalité sidi mansour</poste>
+        <salaire>1200</salaire>
+        </employe>
     </employes>
