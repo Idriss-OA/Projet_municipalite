@@ -105,36 +105,43 @@ function supprimerChauffeur(cin) {
 // =======================
 // 🔹 Modifier chauffeur
 // =======================
-function modifierVehicule(matricule) {
-    fetch("/api/vehicules")
+function modifierChauffeur(cin) {
+    fetch("/api/chauffeurs")
         .then(r => r.json())
         .then(data => {
-            let v = data.vehicules.find(x => x.matricule === matricule);
-            if (!v) return alert("Introuvable");
 
-            let new_matricule = prompt("Matricule :", v.matricule);
-            let new_marque = prompt("Marque :", v.marque);
-            let new_capacite = prompt("Capacité :", v.capacite);
-            let new_prix = prompt("Prix d'achat :", v.prix);
-            let new_age = prompt("Âge :", v.age);
+            let ch = data.chauffeurs.find(x => x.cin === cin);
+            if (!ch) return alert("Chauffeur introuvable");
 
-            fetch("/api/update_vehicule", {
+            let new_cin = prompt("Nouveau CIN :", ch.cin);
+            let new_nom = prompt("Nom :", ch.nom);
+            let new_prenom = prompt("Prénom :", ch.prenom);
+            let new_email = prompt("Email :", ch.email);
+            let new_adresse = prompt("Adresse :", ch.adresse);
+            let new_tel = prompt("Téléphone :", ch.telephone);
+            let new_poste = prompt("Poste :", ch.poste);
+            let new_salaire = prompt("Salaire :", ch.salaire);
+
+            fetch("/api/update_chauffeur", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    matricule: matricule,
-                    new_matricule: new_matricule,
-                    marque: new_marque,
-                    capacite: new_capacite,
-                    prix: new_prix,
-                    age: new_age
+                    old_cin: cin,        // ancien CIN
+                    cin: new_cin,        // nouveau CIN
+                    nom: new_nom,
+                    prenom: new_prenom,
+                    email: new_email,
+                    adresse: new_adresse,
+                    telephone: new_tel,
+                    poste: new_poste,
+                    salaire: new_salaire
                 })
             })
             .then(r => r.json())
             .then(res => {
                 if (res.status === "ok") {
-                    alert("Véhicule modifié ✔");
-                    chargerVehicules();
+                    alert("Chauffeur modifié ✔");
+                    chargerChauffeurs();
                 }
             });
         });

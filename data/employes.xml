@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <employes>
     <employe>
-        <cin>11132654</cin>
+        <cin>11132655</cin>
         <nom>sboui</nom>
         <prenom>youssef</prenom>
         <email>sbouiyoussef@gmail.com</email>
@@ -9,5 +9,15 @@
         <telephone>55124563</telephone>
         <poste>municipalité sidi mansour</poste>
         <salaire>1200</salaire>
+        </employe>
+    <employe>
+        <cin>11125298</cin>
+        <nom>patric</nom>
+        <prenom>vieira</prenom>
+        <email>patricvieira@gmail.com</email>
+        <adresse>france</adresse>
+        <telephone>54987321</telephone>
+        <poste>municipalité gremda</poste>
+        <salaire>1000</salaire>
         </employe>
     </employes>

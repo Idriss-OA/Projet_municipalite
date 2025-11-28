@@ -7,4 +7,11 @@
         <capacite>100</capacite>
         <niveau>0</niveau>
         </point>
+    <point>
+        <lat>34.77009180737455</lat>
+        <lng>10.73287606031086</lng>
+        <type>verre</type>
+        <capacite>100</capacite>
+        <niveau>0</niveau>
+        </point>
     </points>

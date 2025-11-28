@@ -408,14 +408,16 @@ def api_delete_chauffeur():
 @app.route("/api/update_chauffeur", methods=["POST"])
 def api_update_chauffeur():
     data = request.json
-    cin = data["cin"]
+    old = data["old_cin"]   # ancien CIN
+    new = data["cin"]       # nouveau CIN
 
     tree = ET.parse("data/chauffeurs.xml")
     root = tree.getroot()
 
     for ch in root.findall("chauffeur"):
-        if ch.find("cin").text == cin:
+        if ch.find("cin").text == old:
 
+            ch.find("cin").text = new
             ch.find("nom").text = data["nom"]
             ch.find("prenom").text = data["prenom"]
             ch.find("email").text = data["email"]
@@ -426,9 +428,11 @@ def api_update_chauffeur():
 
             indent(root)
             tree.write("data/chauffeurs.xml", encoding="UTF-8", xml_declaration=True)
+
             return jsonify({"status": "ok"})
 
     return jsonify({"status": "not_found"})
+
 @app.route("/api/add_chauffeur", methods=["POST"])
 def api_add_chauffeur():
     data = request.json
