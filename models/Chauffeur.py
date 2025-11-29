@@ -8,3 +8,15 @@ class Chauffeur:
         self.telephone = telephone
         self.poste = poste
         self.salaire = salaire
+
+    def to_dict(self):
+        return {
+            "cin": self.cin,
+            "nom": self.nom,
+            "prenom": self.prenom,
+            "email": self.email,
+            "adresse": self.adresse,
+            "telephone": self.telephone,
+            "poste": self.poste,
+            "salaire": self.salaire
+        }
