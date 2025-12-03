@@ -4,12 +4,12 @@ import xml.etree.ElementTree as ET
 # Services POO
 from services.employe_service import EmployeService
 from services.chauffeur_service import ChauffeurService
-from services.vehicule_service import VehiculeService
+from services.vehicule_service import vehicule_service
 from services.point_service import PointService
 
-from models.employe import Employe
-from models.chauffeur import Chauffeur
-from models.vehicule import Vehicule
+from models.Employe import Employe
+from models.Chauffeur import Chauffeur
+from models.Vehicule import Vehicule
 from models.point import Point
 
 # -------------------------------------------
@@ -252,10 +252,16 @@ def api_vehicules():
 
 @app.route("/api/add_vehicule", methods=["POST"])
 def api_add_vehicule():
-    v = Vehicule(**request.json)
+    data = request.json
+    v = Vehicule(
+        matricule=data["matricule"],
+        marque=data["marque"],
+        capacite=int(data["capacite"]),
+        prix=float(data["prix"]),
+        age=int(data["age"])
+    )
     VehiculeService.add(v)
     return jsonify({"status": "ok"})
-
 
 @app.route("/api/delete_vehicule", methods=["POST"])
 def api_delete_vehicule():

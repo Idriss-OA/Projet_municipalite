@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from models.chauffeur import Chauffeur
+from models.Chauffeur import Chauffeur
 from services.indent_xml import indent
 
 FILE = "data/chauffeurs.xml"

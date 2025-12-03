@@ -1,6 +1,9 @@
 /* ---- Background full page ---- */
+
 .page-bg {
+
     background-size: cover !important;
+
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-attachment: fixed !important;

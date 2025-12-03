@@ -1,0 +1,2 @@
+from .XMLManager 
+import XMLManager
