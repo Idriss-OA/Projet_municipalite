@@ -1,4 +1,4 @@
-class Vehicule:
+class vehicule:
     def __init__(self, matricule, marque, capacite, prix, age):
         self.matricule = matricule
         self.marque = marque

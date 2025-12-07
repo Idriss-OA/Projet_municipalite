@@ -39,9 +39,9 @@ function ligneEmploye(emp) {
     `;
 }
 
-// =======================
-// 🔹 AJOUTER UNE LIGNE D'AJOUT
-// =======================
+// =============================
+// 🔹 AJOUTER UN EMPLOYÉ
+// =============================
 document.getElementById("btn-add").onclick = function () {
 
     let tbody = document.getElementById("tbody-employes");
@@ -106,6 +106,10 @@ function supprimerEmploye(cin) {
         }
     });
 }
+
+// =======================
+// 🔹 MODIFIER EMPLOYÉ
+// =======================
 function editEmploye(cin) {
 
     fetch("/api/employes")
@@ -115,7 +119,6 @@ function editEmploye(cin) {
             let emp = data.employes.find(e => e.cin === cin);
             if (!emp) return alert("Employé introuvable");
 
-            // NOUVEAU : demander un NOUVEAU CIN
             let new_cin = prompt("Nouveau CIN :", emp.cin);
             if (!new_cin) return;
 
@@ -131,8 +134,8 @@ function editEmploye(cin) {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    old_cin: cin,         // CIN actuel (pour identifier)
-                    cin: new_cin,         // CIN modifié
+                    old_cin: cin,
+                    cin: new_cin,
                     nom: new_nom,
                     prenom: new_prenom,
                     email: new_email,

@@ -1,13 +1,23 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <chauffeurs>
-    <chauffeur>
-        <cin>11156547</cin>
-        <nom>hadj salah</nom>
-        <prenom>mahran</prenom>
-        <email>hadjsalahmahran@gmail.com</email>
-        <adresse>gafsa centre</adresse>
-        <telephone>54987321</telephone>
-        <poste>municipalité rte gabes</poste>
-        <salaire>600</salaire>
-        </chauffeur>
-    </chauffeurs>
+    <chauffeur><cin>11111222</cin><nom>Ben Salah</nom><prenom>Ahmed</prenom><email>ahmedsalah@gmail.com</email><adresse>Tunis</adresse><telephone>54900123</telephone><poste>Municipalité Tunis</poste><salaire>700</salaire></chauffeur>
+    <chauffeur><cin>11111223</cin><nom>Ben Ali</nom><prenom>Karim</prenom><email>karimali@gmail.com</email><adresse>Sfax</adresse><telephone>55420987</telephone><poste>Municipalité Sfax</poste><salaire>650</salaire></chauffeur>
+    <chauffeur><cin>11111224</cin><nom>Mansour</nom><prenom>Lassaad</prenom><email>lassaadman@gmail.com</email><adresse>Sousse</adresse><telephone>55320875</telephone><poste>Municipalité Sousse</poste><salaire>600</salaire></chauffeur>
+    <chauffeur><cin>11111225</cin><nom>Hannachi</nom><prenom>Mehdi</prenom><email>mehdihan@gmail.com</email><adresse>Gafsa</adresse><telephone>52456789</telephone><poste>Municipalité Gafsa</poste><salaire>620</salaire></chauffeur>
+    <chauffeur><cin>11111226</cin><nom>Jlassi</nom><prenom>Adel</prenom><email>adeljl@gmail.com</email><adresse>Gabès</adresse><telephone>55678932</telephone><poste>Municipalité Gabès</poste><salaire>680</salaire></chauffeur>
+    <chauffeur><cin>11111227</cin><nom>Riahi</nom><prenom>Omar</prenom><email>omarriahi@gmail.com</email><adresse>Tunis</adresse><telephone>55400221</telephone><poste>Municipalité Tunis</poste><salaire>710</salaire></chauffeur>
+    <chauffeur><cin>11111228</cin><nom>Chouchane</nom><prenom>Houssem</prenom><email>houssemch@gmail.com</email><adresse>Nabeul</adresse><telephone>50123456</telephone><poste>Municipalité Nabeul</poste><salaire>650</salaire></chauffeur>
+    <chauffeur><cin>11111229</cin><nom>Trabelsi</nom><prenom>Skander</prenom><email>skandertra@gmail.com</email><adresse>Sousse</adresse><telephone>52567890</telephone><poste>Municipalité Sousse</poste><salaire>620</salaire></chauffeur>
+    <chauffeur><cin>11111230</cin><nom>Chaker</nom><prenom>Majdi</prenom><email>majdichaker@gmail.com</email><adresse>Kairouan</adresse><telephone>50321456</telephone><poste>Municipalité Kairouan</poste><salaire>640</salaire></chauffeur>
+    <chauffeur><cin>11111231</cin><nom>Ayari</nom><prenom>Firas</prenom><email>firasayari@gmail.com</email><adresse>Monastir</adresse><telephone>53789456</telephone><poste>Municipalité Monastir</poste><salaire>655</salaire></chauffeur>
+
+    <chauffeur><cin>11111232</cin><nom>Ben Ghorbal</nom><prenom>Yassine</prenom><email>yassinebg@gmail.com</email><adresse>Mahdia</adresse><telephone>56987412</telephone><poste>Municipalité Mahdia</poste><salaire>630</salaire></chauffeur>
+    <chauffeur><cin>11111233</cin><nom>Marzougui</nom><prenom>Sameh</prenom><email>samarzougui@gmail.com</email><adresse>Jendouba</adresse><telephone>55641287</telephone><poste>Municipalité Jendouba</poste><salaire>600</salaire></chauffeur>
+    <chauffeur><cin>11111234</cin><nom>Oueslati</nom><prenom>Khaled</prenom><email>khaledou@gmail.com</email><adresse>Béja</adresse><telephone>54789632</telephone><poste>Municipalité Béja</poste><salaire>640</salaire></chauffeur>
+    <chauffeur><cin>11111235</cin><nom>Saidi</nom><prenom>Rami</prenom><email>ramisaidi@gmail.com</email><adresse>Tunis</adresse><telephone>51324678</telephone><poste>Municipalité Tunis</poste><salaire>700</salaire></chauffeur>
+    <chauffeur><cin>11111236</cin><nom>Mhidbi</nom><prenom>Saber</prenom><email>saber.mhidbi@gmail.com</email><adresse>Siliana</adresse><telephone>56987400</telephone><poste>Municipalité Siliana</poste><salaire>620</salaire></chauffeur>
+    <chauffeur><cin>11111237</cin><nom>Louhichi</nom><prenom>Hamza</prenom><email>hamzalou@gmail.com</email><adresse>Kasserine</adresse><telephone>50214785</telephone><poste>Municipalité Kasserine</poste><salaire>600</salaire></chauffeur>
+    <chauffeur><cin>11111238</cin><nom>Haji</nom><prenom>Walid</prenom><email>walidhaji@gmail.com</email><adresse>Gafsa</adresse><telephone>55789641</telephone><poste>Municipalité Gafsa</poste><salaire>630</salaire></chauffeur>
+    <chauffeur><cin>11111239</cin><nom>Letaief</nom><prenom>Rached</prenom><email>rachedlt@gmail.com</email><adresse>Zaghouan</adresse><telephone>50112233</telephone><poste>Municipalité Zaghouan</poste><salaire>650</salaire></chauffeur>
+    <chauffeur><cin>11111240</cin><nom>Karray</nom><prenom>Islem</prenom><email>islemk@gmail.com</email><adresse>Sfax</adresse><telephone>51223344</telephone><poste>Municipalité Sfax</poste><salaire>620</salaire></chauffeur>
+</chauffeurs>

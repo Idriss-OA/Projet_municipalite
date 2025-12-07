@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Tournées</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/gestion_tournees.css">
+</head>
+
+<body class="page-bg" style="background-image: url('/static/img/bg-employe.jpg');">
+
+<nav class="navbar navbar-dark bg-dark bg-opacity-75 px-4"
+     style="position: fixed; top:0; left:0; width:100%; z-index: 10;">
+    <span class="navbar-brand fw-bold">🗂 Gestion des emplois du temps</span>
+    <a href="/employe" class="btn btn-warning fw-bold">Retour</a>
+</nav>
+
+<div class="page-content">
+
+    <h1 class="page-title">Gestion des tournées</h1>
+
+    <!-- 🧰 CHAUFFEURS -->
+    <div class="glass-box">
+        <h3 class="section-title">👷 Chauffeurs disponibles</h3>
+        <select id="chauffeur" class="form-select">
+            <option value="">-- Sélectionner un chauffeur --</option>
+        </select>
+    </div>
+
+    <!-- 🚚 VEHICULES -->
+    <div class="glass-box">
+        <h3 class="section-title">🚚 Véhicules disponibles</h3>
+        <select id="vehicule" class="form-select">
+            <option value="">-- Sélectionner un véhicule --</option>
+        </select>
+    </div>
+
+    <!-- 📍 POINTS -->
+    <div class="glass-box">
+        <h3 class="section-title">📍 Points de collecte</h3>
+        <select id="points" class="form-select" multiple size="6"></select>
+    </div>
+
+    <!-- 📝 FORMULAIRE DE TOURNEE -->
+    <div class="glass-box">
+        <h3 class="section-title">📅 Créer une tournée</h3>
+
+        <form id="form-tournee">
+
+            <!-- Date -->
+            <div class="mb-3">
+                <label class="fw-bold">Date de tournée</label>
+                <input type="date" id="date" class="form-control">
+            </div>
+
+            <!-- Bouton -->
+            <button type="button" onclick="creerTournee()" class="btn btn-success w-100 fw-bold mt-3">
+                ✔ Créer la tournée
+            </button>
+            <a href="/tournees/liste" class="btn btn-primary fw-bold mb-4">
+    📄 Voir la liste des tournées
+</a>
+
+
+            <p id="msg" class="text-center mt-3"></p>
+        </form>
+    </div>
+
+</div>
+
+<script src="/static/js/gestion_tournees.js"></script>
+
+</body>
+</html>

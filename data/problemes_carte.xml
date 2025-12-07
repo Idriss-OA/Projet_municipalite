@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<problemes>
+    <probleme>
+        <id>p1-34af-88dd-1190</id>
+        <type>Défaut de fonctionnement</type>
+        <description>Le capteur de détection du conteneur 12 ne répond plus.</description>
+        <date>2025-01-12 14:22</date>
+        <status>admin</status>
+        <source>Zone A - Capteur #12</source>
+        </probleme>
+    <probleme>
+        <id>p2-9912-ab10-34ff</id>
+        <type>Conteneur détaché</type>
+        <description>Le conteneur est signalé comme déplacé de sa position GPS.</description>
+        <date>2025-01-15 09:41</date>
+        <status>technicien</status>
+        <source>Zone C - Conteneur #7</source>
+        </probleme>
+    <probleme>
+        <id>p3-0045-cc28-77bb</id>
+        <type>Autre problème</type>
+        <description>Variation anormale du poids détectée, suspicion de blocage interne.</description>
+        <date>2025-01-18 11:06</date>
+        <status>nouveau</status>
+        <source>Zone B - Capteur #22</source>
+        </probleme>
+    </problemes>

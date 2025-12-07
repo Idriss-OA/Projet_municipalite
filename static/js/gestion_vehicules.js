@@ -90,6 +90,7 @@ function modifierVehicule(matricule) {
     fetch("/api/vehicules")
         .then(r => r.json())
         .then(data => {
+
             let v = data.vehicules.find(x => x.matricule === matricule);
             if (!v) return alert("Véhicule introuvable");
 
@@ -101,10 +102,10 @@ function modifierVehicule(matricule) {
 
             fetch("/api/update_vehicule", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    matricule: matricule,          // ancienne
-                    new_matricule: new_matricule,  // nouvelle
+                    old_matricule: matricule,    // ✔ envoyé correctement
+                    matricule: new_matricule,
                     marque: new_marque,
                     capacite: new_capacite,
                     prix: new_prix,
@@ -120,3 +121,4 @@ function modifierVehicule(matricule) {
             });
         });
 }
+

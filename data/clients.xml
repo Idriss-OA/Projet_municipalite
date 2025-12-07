@@ -16,4 +16,12 @@
         <postal>3022</postal>
         <cin>11191935</cin>
         </client>
+    <client>
+        <username>aychouch</username>
+        <email>aychouch@gmail.com</email>
+        <password>ayech123</password>
+        <lieu>poste</lieu>
+        <postal>1120</postal>
+        <cin>12354</cin>
+        </client>
     </clients>

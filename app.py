@@ -1,122 +1,183 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, abort
 import xml.etree.ElementTree as ET
 
-# Services POO
-from services.employe_service import EmployeService
-from services.chauffeur_service import ChauffeurService
-from services.vehicule_service import VehiculeService
-from services.point_service import PointService
+# ================================
+# IMPORT DES SERVICES
+# ================================
+from services.employe_service import employeservice
+from services.chauffeur_service import chauffeurservice
+from services.vehicule_service import vehiculeservice
+from services.point_service import pointservice
+from services.indent_xml import indent
+from services.tournee_service import tourneeservice
+from services.probleme_carte_service import ProblemeCarteService
 
-from models.employe import Employe
-from models.chauffeur import Chauffeur
-from models.vehicule import Vehicule
-from models.point import Point
 
-# -------------------------------------------
+# ================================
+# IMPORT DES MODELS
+# ================================
+from models.employe import employe
+from models.chauffeur import chauffeur
+from models.vehicule import vehicule
+from models.point import point
+from models.tournee import tournee
+import uuid
+# ================================
 # CONFIG FLASK
-# -------------------------------------------
+# ================================
 app = Flask(__name__)
 app.secret_key = "super_secret_key_123"
 
 
-# -------------------------------------------
-# MIDDLEWARE : ROLE REQUIRED
-# -------------------------------------------
-def role_required(role):
-    if "role" not in session or session["role"] != role:
+# ================================
+# MIDDLEWARE
+# ================================
+def role_required(*roles):
+    """Autorise un ou plusieurs rôles dans une page"""
+    if "role" not in session or session["role"] not in roles:
         abort(403)
 
 
-# -------------------------------------------
-# LOGIN / LOGOUT
-# -------------------------------------------
+# ================================
+# PAGE LOGIN
+# ================================
 @app.route("/")
 def home():
     return render_template("login.html")
 
 
-# ---------------- LOGIN --------------------
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
     username = data["username"]
     password = data["password"]
 
-    # 1️⃣ admin/user (dans users.xml)
-    user_info = get_user(username, password)
+    # --------- Vérification ADMIN (users.xml) ----------
+    tree = ET.parse("data/users.xml")
+    root = tree.getroot()
 
-    # 2️⃣ client
-    if not user_info:
-        user_info = get_client(username, password)
+    for u in root.findall("user"):
+        if u.find("username").text == username and u.find("password").text == password:
+            session["username"] = username
+            session["role"] = u.find("role").text
+            return jsonify({"status": "ok", "role": session["role"]})
 
-    # 3️⃣ employé
-    if not user_info:
-        user_info = get_employe(username, password)
+    # --------- Vérification CLIENT (clients.xml) ----------
+    tree = ET.parse("data/clients.xml")
+    root = tree.getroot()
 
-    # 4️⃣ chauffeur
-    if not user_info:
-        user_info = get_chauffeur(username, password)
+    for c in root.findall("client"):
+        if c.find("username").text == username and c.find("password").text == password:
+            session["username"] = username
+            session["role"] = "client"
+            return jsonify({"status": "ok", "role": "client"})
 
-    if not user_info:
-        return jsonify({"status": "error"})
+    # --------- Vérification EMPLOYÉ ----------
+    for emp in employeservice.load_all():
+        if emp.prenom == username and emp.cin == password:
+            session["username"] = username
+            session["role"] = "employe"
+            return jsonify({"status": "ok", "role": "employe"})
 
-    session["username"] = user_info["username"]
-    session["role"] = user_info["role"]
+    # --------- Vérification CHAUFFEUR ----------
+    for ch in chauffeurservice.load_all():
+        if ch.prenom == username and ch.cin == password:
+            session["username"] = username
+            session["role"] = "chauffeur"
+            return jsonify({"status": "ok", "role": "chauffeur"})
 
-    return jsonify({"status": "ok", "role": user_info["role"]})
+    return jsonify({"status": "error"})
+
+# ================================
+# PAGE REGISTER (CRÉATION COMPTE)
+# ================================
+@app.route("/register")
+def register_page():
+    return render_template("register.html")
+# ================================
+# REGISTER - CREATION DE COMPTE
+# ================================
+@app.route("/register", methods=["POST"])
+def register_post():
+    data = request.json
+
+    username = data["username"]
+    email = data["email"]
+    password = data["password"]
+    lieu = data["lieu"]
+    postal = data["postal"]
+    cin = data["cin"]
+
+    tree = ET.parse("data/clients.xml")
+    root = tree.getroot()
+
+    # Vérifier si username existe déjà
+    for c in root.findall("client"):
+        if c.find("username").text == username:
+            return jsonify({"status": "exists"})
+
+    # Créer le client
+    new_client = ET.SubElement(root, "client")
+    ET.SubElement(new_client, "username").text = username
+    ET.SubElement(new_client, "email").text = email
+    ET.SubElement(new_client, "password").text = password
+    ET.SubElement(new_client, "lieu").text = lieu
+    ET.SubElement(new_client, "postal").text = postal
+    ET.SubElement(new_client, "cin").text = cin
+    indent(root)
+
+    tree.write("data/clients.xml", encoding="UTF-8", xml_declaration=True)
+
+    return jsonify({"status": "ok"})
 
 
-# ---------------- LOGOUT -------------------
+
+    # ------------------- Admins (users.xml) -------------------
+    tree = ET.parse("data/users.xml")
+    root = tree.getroot()
+
+    for u in root.findall("user"):
+        if u.find("username").text == username and u.find("password").text == password:
+            session["username"] = username
+            session["role"] = u.find("role").text
+            return jsonify({"status": "ok", "role": session["role"]})
+
+    # ------------------- Clients (clients.xml) -------------------
+    tree = ET.parse("data/clients.xml")
+    root = tree.getroot()
+
+    for c in root.findall("client"):
+        if c.find("username").text == username and c.find("password").text == password:
+            session["username"] = username
+            session["role"] = "client"
+            return jsonify({"status": "ok", "role": "client"})
+
+    # ------------------- Employés -------------------
+    for emp in employeservice.load_all():
+        if emp.prenom == username and emp.cin == password:
+            session["username"] = username
+            session["role"] = "employe"
+            return jsonify({"status": "ok", "role": "employe"})
+
+    # ------------------- Chauffeurs -------------------
+    for ch in chauffeurservice.load_all():
+        if ch.prenom == username and ch.cin == password:
+            session["username"] = username
+            session["role"] = "chauffeur"
+            return jsonify({"status": "ok", "role": "chauffeur"})
+
+    return jsonify({"status": "error"})
+
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("home"))
 
 
-# ==================================================================
-#  AUTH HELPERS  (lecture XML admin / clients)
-# ==================================================================
-def get_user(username, password):
-    tree = ET.parse("data/users.xml")
-    root = tree.getroot()
-
-    for u in root.findall("user"):
-        if u.find("username").text == username and u.find("password").text == password:
-            return {"username": username, "role": u.find("role").text}
-
-    return None
-
-
-def get_client(username, password):
-    tree = ET.parse("data/clients.xml")
-    root = tree.getroot()
-
-    for c in root.findall("client"):
-        if c.find("username").text == username and c.find("password").text == password:
-            return {"username": username, "role": "client"}
-
-    return None
-
-
-def get_employe(username, password):
-    for emp in EmployeService.load_all():
-        if emp.prenom == username and emp.cin == password:
-            return {"username": username, "role": "employe"}
-
-    return None
-
-
-def get_chauffeur(username, password):
-    for ch in ChauffeurService.load_all():
-        if ch.prenom == username and ch.cin == password:
-            return {"username": username, "role": "chauffeur"}
-
-    return None
-
-
-# ==================================================================
-#  DASHBOARDS
-# ==================================================================
+# ================================
+# DASHBOARDS
+# ================================
 @app.route("/admin")
 def admin_dashboard():
     role_required("admin")
@@ -140,10 +201,18 @@ def client_dashboard():
     role_required("client")
     return render_template("client.html")
 
+@app.route("/tournees")
+def tournees_page():
+    role_required("employe")
+    return render_template("gestion_tournees.html")
+@app.route("/tournees/liste")
+def tournees_liste_page():
+    role_required("employe")
+    return render_template("liste_tournees.html")
 
-# ==================================================================
-#  EMPLOYES (admin only)
-# ==================================================================
+# ================================
+# EMPLOYÉS
+# ================================
 @app.route("/employes")
 def employes_page():
     role_required("admin")
@@ -152,46 +221,43 @@ def employes_page():
 
 @app.route("/api/employes")
 def api_employes():
-    employes = EmployeService.load_all()
-    return jsonify({"employes": [e.to_dict() for e in employes]})
+    data = [e.to_dict() for e in employeservice.load_all()]
+    return jsonify({"employes": data})
 
 
 @app.route("/api/add_employe", methods=["POST"])
 def api_add_employe():
-    data = request.json
-    e = Employe(**data)
-    EmployeService.add(e)
+    e = employe(**request.json)
+    employeservice.add(e)
     return jsonify({"status": "ok"})
 
 
 @app.route("/api/delete_employe", methods=["POST"])
 def api_delete_employe():
-    cin = request.json["cin"]
-    ok = EmployeService.delete(cin)
+    ok = employeservice.delete(request.json["cin"])
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
 @app.route("/api/update_employe", methods=["POST"])
 def api_update_employe():
     data = request.json
-    old = data["old_cin"]
-    updated = Employe(
-        data["cin"],
-        data["nom"],
-        data["prenom"],
-        data["email"],
-        data["adresse"],
-        data["telephone"],
-        data["poste"],
-        data["salaire"]
-    )
-    ok = EmployeService.update(old, updated)
+
+    old_cin = data["old_cin"]
+
+    # Retirer old_cin avant de construire l'objet employe
+    new_data = {k: v for k, v in data.items() if k != "old_cin"}
+
+    updated = employe(**new_data)
+
+    ok = employeservice.update(old_cin, updated)
+
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
-# ==================================================================
-#  CHAUFFEURS (admin only)
-# ==================================================================
+
+# ================================
+# CHAUFFEURS
+# ================================
 @app.route("/chauffeurs")
 def chauffeurs_page():
     role_required("admin")
@@ -200,44 +266,42 @@ def chauffeurs_page():
 
 @app.route("/api/chauffeurs")
 def api_chauffeurs():
-    ch = ChauffeurService.load_all()
-    return jsonify({"chauffeurs": [c.to_dict() for c in ch]})
+    data = [c.to_dict() for c in chauffeurservice.load_all()]
+    return jsonify({"chauffeurs": data})
 
 
 @app.route("/api/add_chauffeur", methods=["POST"])
 def api_add_chauffeur():
-    c = Chauffeur(**request.json)
-    ChauffeurService.add(c)
+    ch = chauffeur(**request.json)
+    chauffeurservice.add(ch)
     return jsonify({"status": "ok"})
 
 
 @app.route("/api/delete_chauffeur", methods=["POST"])
 def api_delete_chauffeur():
-    ok = ChauffeurService.delete(request.json["cin"])
+    ok = chauffeurservice.delete(request.json["cin"])
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
 @app.route("/api/update_chauffeur", methods=["POST"])
 def api_update_chauffeur():
     data = request.json
+
     old_cin = data["old_cin"]
-    updated = Chauffeur(
-        data["cin"],
-        data["nom"],
-        data["prenom"],
-        data["email"],
-        data["adresse"],
-        data["telephone"],
-        data["poste"],
-        data["salaire"]
-    )
-    ok = ChauffeurService.update(old_cin, updated)
+
+    # Supprimer old_cin avant création de l'objet chauffeur
+    new_data = {k: v for k, v in data.items() if k != "old_cin"}
+
+    updated = chauffeur(**new_data)
+
+    ok = chauffeurservice.update(old_cin, updated)
+
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
-# ==================================================================
-#  VEHICULES
-# ==================================================================
+# ================================
+# VÉHICULES
+# ================================
 @app.route("/vehicules")
 def vehicules_page():
     role_required("admin")
@@ -246,68 +310,158 @@ def vehicules_page():
 
 @app.route("/api/vehicules")
 def api_vehicules():
-    v = VehiculeService.load_all()
-    return jsonify({"vehicules": [x.to_dict() for x in v]})
+    data = [v.to_dict() for v in vehiculeservice.load_all()]
+    return jsonify({"vehicules": data})
 
 
 @app.route("/api/add_vehicule", methods=["POST"])
 def api_add_vehicule():
-    v = Vehicule(**request.json)
-    VehiculeService.add(v)
+    v = vehicule(**request.json)
+    vehiculeservice.add(v)
     return jsonify({"status": "ok"})
 
 
 @app.route("/api/delete_vehicule", methods=["POST"])
 def api_delete_vehicule():
-    ok = VehiculeService.delete(request.json["matricule"])
+    ok = vehiculeservice.delete(request.json["matricule"])
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
 @app.route("/api/update_vehicule", methods=["POST"])
 def api_update_vehicule():
     data = request.json
-    old = data["old_matricule"]
-    updated = Vehicule(
+    updated = vehicule(
         data["matricule"],
         data["marque"],
         data["capacite"],
         data["prix"],
         data["age"]
     )
-    ok = VehiculeService.update(old, updated)
+
+    ok = vehiculeservice.update(data["old_matricule"], updated)
     return jsonify({"status": "ok" if ok else "not_found"})
 
 
-# ==================================================================
-#  POINTS DE COLLECTE (admin)
-# ==================================================================
+
+# ================================
+# POINTS DE COLLECTE
+# ================================
 @app.route("/points")
 def points_page():
+    role_required("admin", "employe")  # ✔ les deux peuvent gérer
+    return render_template("points.html", role=session["role"])
+
+
+@app.route("/points/table")
+def points_table():
     role_required("admin")
-    return render_template("points.html")
+    return render_template("points_table.html", role=session["role"])
 
 
 @app.route("/api/points")
 def api_points():
-    pts = PointService.load_all()
-    return jsonify({"points": [p.to_dict() for p in pts]})
+    data = [p.to_dict() for p in pointservice.load_all()]
+    return jsonify({"points": data})
 
 
 @app.route("/api/add_point", methods=["POST"])
 def api_add_point():
-    p = Point(**request.json)
-    PointService.add(p)
+    p = point(**request.json)
+    pointservice.add(p)
     return jsonify({"status": "ok"})
 
 
 @app.route("/api/delete_point", methods=["POST"])
 def api_delete_point():
-    ok = PointService.delete(request.json["lat"], request.json["lng"])
+    ok = pointservice.delete(request.json["lat"], request.json["lng"])
     return jsonify({"status": "ok" if ok else "not_found"})
 
+@app.route("/api/create_tournee", methods=["POST"])
+def api_create_tournee():
+    data = request.json
 
-# ==================================================================
+    chauffeur = data["chauffeur"]
+    vehicule = data["vehicule"]
+    date = data["date"]
+    points = data["points"]
+
+    # --- Vérification des champs ---
+    if not chauffeur or not vehicule or not date or len(points) == 0:
+        return jsonify({"status": "error", "msg": "Champs manquants !"})
+
+    # --- Vérifier disponibilité chauffeur ---
+    if tourneeservice.chauffeur_busy(chauffeur, date):
+        return jsonify({
+            "status": "busy",
+            "msg": f"❌ Chauffeur {chauffeur} est déjà occupé à cette date"
+        })
+
+    # --- Vérifier disponibilité véhicule ---
+    if tourneeservice.vehicule_busy(vehicule, date):
+        return jsonify({
+            "status": "busy",
+            "msg": f"❌ Véhicule {vehicule} est déjà utilisé à cette date"
+        })
+
+    # --- Tout est OK → Créer tournée ---
+    new_t = tournee(
+        id=str(uuid.uuid4()),
+        chauffeur=chauffeur,
+        vehicule=vehicule,
+        date=date,
+        points=points
+    )
+
+    tourneeservice.add(new_t)
+
+    return jsonify({"status": "ok", "msg": "✔ Tournée créée avec succès"})
+@app.route("/api/tournees")
+def api_tournees():
+    data = [t.to_dict() for t in tourneeservice.load_all()]
+    return jsonify({"tournees": data})
+@app.route("/api/update_tournee", methods=["POST"])
+def api_update_tournee():
+    data = request.json
+
+    id = data["id"]
+    chauffeur = data["chauffeur"]
+    vehicule = data["vehicule"]
+    date = data["date"]
+
+    tourneeservice.update(id, chauffeur, vehicule, date)
+
+    return jsonify({"status": "ok"})
+
+@app.route("/api/delete_tournee", methods=["POST"])
+def api_delete_tournee():
+    id = request.json["id"]
+    ok = tourneeservice.delete(id)
+    return jsonify({"status": "ok" if ok else "error"})
+@app.route("/problemes_carte")
+def probleme_carte_page():
+    role_required("employe")
+    return render_template("liste_problemes_carte.html")
+@app.route("/api/problemes_carte")
+def api_problemes_carte():
+    data = [p.to_dict() for p in ProblemeCarteService.load_all()]
+    return jsonify({"problemes": data})
+@app.route("/api/probleme_carte/technicien", methods=["POST"])
+def api_pb_technicien():
+    id = request.json["id"]
+    ProblemeCarteService.update_status(id, "technicien")
+    return jsonify({"status": "ok"})
+@app.route("/api/probleme_carte/admin", methods=["POST"])
+def api_pb_admin():
+    id = request.json["id"]
+    ProblemeCarteService.update_status(id, "admin")
+    return jsonify({"status": "ok"})
+@app.route("/gestion_reclamations")
+def gestion_reclamations_page():
+    role_required("admin")   # seul admin peut voir
+    return render_template("gestion_reclamations.html")
+
+# ================================
 # START SERVER
-# ==================================================================
+# ================================
 if __name__ == "__main__":
     app.run(debug=True)

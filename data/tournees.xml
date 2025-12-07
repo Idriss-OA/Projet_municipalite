@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tournees>
+    <tournee>
+        <id>0b984040-0340-4983-864d-128d64458ba3</id>
+        <chauffeur>11111226</chauffeur>
+        <vehicule>430TUN2698</vehicule>
+        <date>2025-12-19</date>
+        <points>
+            <point>
+                <lat>34.78001</lat>
+                <lng>10.76021</lng>
+                </point>
+            <point>
+                <lat>34.7811</lat>
+                <lng>10.7589</lng>
+                </point>
+            <point>
+                <lat>34.77945</lat>
+                <lng>10.76123</lng>
+                </point>
+            <point>
+                <lat>34.778</lat>
+                <lng>10.76211</lng>
+                </point>
+            </points>
+        </tournee>
+    </tournees>

@@ -1,17 +1,24 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <points>
-    <point>
-        <lat>34.776260922674325</lat>
-        <lng>10.749913897723655</lng>
-        <type>Verre</type>
-        <capacite>100</capacite>
-        <niveau>0</niveau>
-        </point>
-    <point>
-        <lat>34.77009180737455</lat>
-        <lng>10.73287606031086</lng>
-        <type>verre</type>
-        <capacite>100</capacite>
-        <niveau>0</niveau>
-        </point>
-    </points>
+    <point><lat>34.78001</lat><lng>10.76021</lng><type>verre</type><capacite>150</capacite><niveau>0</niveau></point>
+    <point><lat>34.78110</lat><lng>10.75890</lng><type>plastique</type><capacite>200</capacite><niveau>20</niveau></point>
+    <point><lat>34.77945</lat><lng>10.76123</lng><type>papier</type><capacite>180</capacite><niveau>50</niveau></point>
+    <point><lat>34.77800</lat><lng>10.76211</lng><type>verre</type><capacite>160</capacite><niveau>10</niveau></point>
+    <point><lat>34.77720</lat><lng>10.76300</lng><type>plastique</type><capacite>220</capacite><niveau>30</niveau></point>
+    <point><lat>34.77610</lat><lng>10.76412</lng><type>papier</type><capacite>190</capacite><niveau>40</niveau></point>
+    <point><lat>34.77550</lat><lng>10.76533</lng><type>verre</type><capacite>170</capacite><niveau>0</niveau></point>
+    <point><lat>34.77480</lat><lng>10.76644</lng><type>plastique</type><capacite>210</capacite><niveau>60</niveau></point>
+    <point><lat>34.77390</lat><lng>10.76755</lng><type>papier</type><capacite>200</capacite><niveau>70</niveau></point>
+    <point><lat>34.77310</lat><lng>10.76860</lng><type>verre</type><capacite>140</capacite><niveau>10</niveau></point>
+
+    <point><lat>34.77240</lat><lng>10.76970</lng><type>plastique</type><capacite>250</capacite><niveau>50</niveau></point>
+    <point><lat>34.77150</lat><lng>10.77080</lng><type>papier</type><capacite>160</capacite><niveau>30</niveau></point>
+    <point><lat>34.77060</lat><lng>10.77190</lng><type>verre</type><capacite>180</capacite><niveau>5</niveau></point>
+    <point><lat>34.76970</lat><lng>10.77295</lng><type>plastique</type><capacite>200</capacite><niveau>80</niveau></point>
+    <point><lat>34.76880</lat><lng>10.77390</lng><type>papier</type><capacite>150</capacite><niveau>40</niveau></point>
+    <point><lat>34.76790</lat><lng>10.77480</lng><type>verre</type><capacite>170</capacite><niveau>15</niveau></point>
+    <point><lat>34.76710</lat><lng>10.77570</lng><type>plastique</type><capacite>240</capacite><niveau>55</niveau></point>
+    <point><lat>34.76620</lat><lng>10.77660</lng><type>papier</type><capacite>180</capacite><niveau>20</niveau></point>
+    <point><lat>34.76530</lat><lng>10.77750</lng><type>verre</type><capacite>160</capacite><niveau>10</niveau></point>
+    <point><lat>34.76440</lat><lng>10.77840</lng><type>plastique</type><capacite>230</capacite><niveau>70</niveau></point>
+</points>
