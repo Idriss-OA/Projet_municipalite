@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from models.point import point
 from services.indent_xml import indent
+from services.xml_validator import XMLValidator
 
 FILE = "data/points.xml"
 
@@ -34,6 +35,14 @@ class pointservice:
         root.append(el)
         indent(root)
         tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+        ok, error = XMLValidator.validate(FILE)
+
+        if not ok:
+            root.remove(el)
+            tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+            return False, error  # ← message renvoyé
+        return True, ""
+
 
     @staticmethod
     def delete(lat, lng):

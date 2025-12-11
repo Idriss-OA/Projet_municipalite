@@ -13,7 +13,7 @@
         <type>Conteneur détaché</type>
         <description>Le conteneur est signalé comme déplacé de sa position GPS.</description>
         <date>2025-01-15 09:41</date>
-        <status>technicien</status>
+        <status>admin</status>
         <source>Zone C - Conteneur #7</source>
         </probleme>
     <probleme>
@@ -21,7 +21,7 @@
         <type>Autre problème</type>
         <description>Variation anormale du poids détectée, suspicion de blocage interne.</description>
         <date>2025-01-18 11:06</date>
-        <status>nouveau</status>
+        <status>technicien</status>
         <source>Zone B - Capteur #22</source>
         </probleme>
     </problemes>

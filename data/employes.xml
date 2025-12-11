@@ -1,13 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <employes>
     <employe>
-        <cin>11125296</cin>
+        <cin>11125299</cin>
         <nom>patric</nom>
         <prenom>vieira</prenom>
         <email>patricvieira@gmail.com</email>
         <adresse>france</adresse>
         <telephone>54987321</telephone>
         <poste>municipalité gremda</poste>
+        <salaire>1000</salaire>
+        </employe>
+    <employe>
+        <cin>11183123</cin>
+        <nom>Ayech</nom>
+        <prenom>Youssef</prenom>
+        <email>youssefayech@gmail.com</email>
+        <adresse>saltnia</adresse>
+        <telephone>99658325</telephone>
+        <poste>satlnia</poste>
+        <salaire>1001</salaire>
+        </employe>
+    <employe>
+        <cin>11132654</cin>
+        <nom>slayem</nom>
+        <prenom>njayem</prenom>
+        <email>ouledabdalah_idriss@gmail.com</email>
+        <adresse>Rue wahran cite jardin</adresse>
+        <telephone>99624324</telephone>
+        <poste>municipalité sidi mansour</poste>
         <salaire>1000</salaire>
         </employe>
     </employes>

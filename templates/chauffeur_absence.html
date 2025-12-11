@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demander une absence</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="page-bg" style="background-image: url('/static/img/bg-chauffeur.jpg');">
+
+<nav class="navbar navbar-dark bg-dark bg-opacity-75 px-4">
+    <span class="navbar-brand fw-bold">📝 Demander une absence</span>
+    <a href="/chauffeur" class="btn btn-warning fw-bold">Retour</a>
+</nav>
+
+<div class="container mt-5">
+    <div class="card p-4 shadow">
+
+        <h3 class="text-center mb-4">Formulaire d'absence</h3>
+
+        <form id="absence-form">
+            <div class="mb-3">
+                <label class="form-label">Date d'absence</label>
+                <input type="date" class="form-control" id="date_absence" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Motif</label>
+                <textarea class="form-control" id="motif" rows="3" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">
+                Envoyer la demande
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+document.getElementById("absence-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let data = {
+        date: document.getElementById("date_absence").value,
+        motif: document.getElementById("motif").value
+    };
+
+    let r = await fetch("/api/chauffeur/absence", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+
+    let res = await r.json();
+
+    if (res.status === "ok") {
+        alert("Votre demande a été envoyée !");
+        window.location.href = "/chauffeur";
+    }
+});
+</script>
+
+</body>
+</html>

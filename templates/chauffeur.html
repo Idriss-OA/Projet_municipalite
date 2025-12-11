@@ -26,10 +26,23 @@
         <h3 class="text-center mb-4">Vos outils</h3>
 
         <div class="btn-container">
-            <button class="btn btn-success btn-big">Voir tournée</button>
-            <button class="btn btn-success btn-big">Demander une absence</button>
-            <button class="btn btn-success btn-big">Signaler un incident</button>
-            <button class="btn btn-success btn-big">Rapport fin du tournée</button>
+            <button class="btn btn-primary btn-big"
+        onclick="window.location.href='/chauffeur/tournee'">
+    Voir tournée
+</button>
+
+            <a class="btn btn-info btn-big" href="/chauffeur/absence">
+    Demander une absence
+</a>
+
+            <a class="btn btn-info btn-big" href="/chauffeur/incident">
+    Signaler un incident
+</a>
+
+<button onclick="window.location.href='/chauffeur/rapport'" class="btn btn-secondary btn-big">
+    Rapport fin du tournée
+</button>
+
         </div>
 
     </div>

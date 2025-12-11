@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:simpleType name="cinType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{8}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="telType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{8}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="alphaWord">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-zÀ-ÿ\s\-]{2,40}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="uuidType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z0-9\-]{10,50}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="dateType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="matriculeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{3}TUN[0-9]{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:element name="chauffeurs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="chauffeur" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="cin" type="cinType"/>
+                            <xs:element name="nom" type="alphaWord"/>
+                            <xs:element name="prenom" type="alphaWord"/>
+                            <xs:element name="email" type="emailType"/>
+                            <xs:element name="adresse" type="alphaWord"/>
+                            <xs:element name="telephone" type="telType"/>
+                            <xs:element name="poste" type="alphaWord"/>
+                            <xs:element name="salaire" type="xs:positiveInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="clients">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="client" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="username" type="xs:string"/>
+                            <xs:element name="email" type="emailType"/>
+                            <xs:element name="password" type="xs:string"/>
+                            <xs:element name="lieu" type="alphaWord"/>
+                            <xs:element name="postal" type="xs:string"/>
+                            <xs:element name="cin" type="cinType"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="employes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employe" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="cin" type="cinType"/>
+                            <xs:element name="nom" type="alphaWord"/>
+                            <xs:element name="prenom" type="alphaWord"/>
+                            <xs:element name="email" type="emailType"/>
+                            <xs:element name="adresse" type="alphaWord"/>
+                            <xs:element name="telephone" type="telType"/>
+                            <xs:element name="poste" type="alphaWord"/>
+                            <xs:element name="salaire" type="xs:positiveInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="points">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="point" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="lat" type="xs:decimal"/>
+                            <xs:element name="lng" type="xs:decimal"/>
+                            <xs:element name="type" type="xs:string"/>
+                            <xs:element name="capacite" type="xs:positiveInteger"/>
+                            <xs:element name="niveau" type="xs:nonNegativeInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="problemes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="probleme" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id" type="uuidType"/>
+                            <xs:element name="type" type="xs:string"/>
+                            <xs:element name="description" type="xs:string"/>
+                            <xs:element name="date" type="dateType"/>
+                            <xs:element name="status" type="xs:string"/>
+                            <xs:element name="source" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="reclamations">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reclamation" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="type" type="xs:string"/>
+                            <xs:element name="cin" type="cinType"/>
+                            <xs:element name="date" type="dateType"/>
+                            <xs:element name="motif" type="xs:string"/>
+
+                        </xs:sequence>
+                        <xs:attribute name="status" type="xs:string" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="temps">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="temps" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id_tournee" type="uuidType"/>
+                            <xs:element name="chauffeur" type="cinType"/>
+                            <xs:element name="start_time" type="xs:positiveInteger"/>
+                            <xs:element name="end_time" type="xs:positiveInteger"/>
+                            <xs:element name="temps_total" type="xs:positiveInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="users">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="username" type="xs:string"/>
+                            <xs:element name="password" type="xs:string"/>
+                            <xs:element name="role" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="vehicules">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="vehicule" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="matricule" type="matriculeType"/>
+                            <xs:element name="marque" type="alphaWord"/>
+                            <xs:element name="capacite" type="xs:positiveInteger"/>
+                            <xs:element name="prix" type="xs:positiveInteger"/>
+                            <xs:element name="age" type="xs:nonNegativeInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

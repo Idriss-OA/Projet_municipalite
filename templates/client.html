@@ -26,9 +26,14 @@
         <h3 class="text-center mb-4">Services</h3>
 
         <div class="btn-container">
-            <button class="btn btn-info btn-big">Carte de point de collecte</button>
-            <button class="btn btn-info btn-big">Signaler un probleme</button>
-            <button class="btn btn-info btn-big">Demander un nouveau point de collecte</button>
+            <a class="btn btn-info btn-big" href="/client/carte">Carte de point de collecte</a>
+
+            <button class="btn btn-info btn-big" onclick="window.location.href='/client/signaler_probleme'">
+     Signaler un problème
+</button>
+
+            <a href="/client/nouveau_point" class="btn btn-info btn-big">Demander un nouveau point de collecte</a>
+
         </div>
 
     </div>

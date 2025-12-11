@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Signaler un incident</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/img/bg-chauffeur.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* OVERLAY SOMBRE POUR LISIBILITÉ */
+        .overlay {
+            background: rgba(0, 0, 0, 0.55);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CONTENEUR PRINCIPAL */
+        .content {
+            position: relative;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        /* TITRE */
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(0,0,0,0.8);
+            margin-bottom: 25px;
+        }
+
+        /* MAP */
+        #map {
+            height: 55vh;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        /* FORMULAIRE */
+        .form-box {
+            margin-top: 25px;
+            background: rgba(255,255,255,0.95);
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        select, textarea {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            margin-top: 6px;
+            transition: 0.2s;
+        }
+
+        select:focus, textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0,123,255,0.4);
+            outline: none;
+        }
+
+        /* BOUTON */
+        .btn-primary {
+            margin-top: 20px;
+            width: 100%;
+            background: linear-gradient(135deg, #007bff, #003c9e);
+            border: none;
+            padding: 14px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: 0.25s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 20px rgba(0,123,255,0.45);
+        }
+
+        /* ANIMATION */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="content">
+
+    <h1>🚨 Signaler un incident</h1>
+
+    <div id="map"></div>
+
+    <div class="form-box">
+        <label class="form-label">Type d'incident</label>
+        <select id="incident_type">
+            <option value="Conteneur cassé">Conteneur cassé</option>
+            <option value="Rue bloquée">Rue bloquée</option>
+            <option value="Point inaccessible">Point inaccessible</option>
+            <option value="Danger sur la route">Danger sur la route</option>
+            <option value="Autre">Autre</option>
+        </select>
+
+        <label class="form-label mt-3">Description</label>
+        <textarea id="incident_desc" rows="3" placeholder="Décrivez le problème..."></textarea>
+
+        <button class="btn-primary" onclick="sendIncident()">
+            📤 Envoyer le signalement
+        </button>
+    </div>
+</div>
+
+<script src="/static/js/chauffeur_incident.js"></script>
+
+</body>
+</html>

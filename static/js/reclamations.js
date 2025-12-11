@@ -1,11 +1,13 @@
 async function loadReclamations() {
-    let r = await fetch("/api/problemes_carte");
-    let data = await r.json();
 
     let tbody = document.getElementById("reclamations-table");
     tbody.innerHTML = "";
 
-    data.problemes
+    // --- 1. Charger problèmes carte interactive ---
+    let pbReq = await fetch("/api/problemes_carte");
+    let pbData = await pbReq.json();
+
+    pbData.problemes
         .filter(pb => pb.status === "admin")
         .forEach(pb => {
             tbody.innerHTML += `
@@ -18,4 +20,20 @@ async function loadReclamations() {
                 </tr>
             `;
         });
+
+    // --- 2. Charger réclamations chauffeur/client ---
+    let recReq = await fetch("/api/reclamations_admin");
+    let recData = await recReq.json();
+
+    recData.reclamations.forEach((rec, index) => {
+        tbody.innerHTML += `
+            <tr>
+                <td>R-${index + 1}</td>
+                <td>${rec.type}</td>
+                <td>${rec.motif}</td>
+                <td>${rec.date}</td>
+                <td><span class="badge bg-info">Réclamation</span></td>
+            </tr>
+        `;
+    });
 }

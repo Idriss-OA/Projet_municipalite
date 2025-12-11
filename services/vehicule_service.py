@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from models.vehicule import vehicule
 from services.indent_xml import indent
+from services.xml_validator import XMLValidator
 
 FILE = "data/vehicules.xml"
 
@@ -34,6 +35,16 @@ class vehiculeservice:
         root.append(el)
         indent(root)
         tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+        ok, error = XMLValidator.validate(FILE)
+
+        if not ok:
+            # On supprime l'élément invalide
+            root.remove(el)
+            tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+            return False, error
+
+        return True, ""
+
 
     @staticmethod
     def delete(matricule):

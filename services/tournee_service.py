@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from services.indent_xml import indent
 from models.tournee import tournee
+from services.xml_validator import XMLValidator
 
 FILE = "data/tournees.xml"
 
@@ -46,6 +47,16 @@ class tourneeservice:
 
         indent(root)
         tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+        ok, error = XMLValidator.validate(FILE)
+
+        if not ok:
+            # On supprime l'élément invalide
+            root.remove(el)
+            tree.write(FILE, encoding="UTF-8", xml_declaration=True)
+            return False, error
+
+        return True, ""
+
 
     @staticmethod
     def chauffeur_busy(chauffeur, date):

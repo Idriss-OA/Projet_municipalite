@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<reclamations>
+    <reclamation status="approuve">
+        <type>absence</type>
+        <cin>11111224</cin>
+        <date>2025-12-12</date>
+        <motif>maladie</motif>
+        </reclamation>
+    <reclamation status="approuve">
+        <type>absence</type>
+        <cin>11111224</cin>
+        <date>2026-01-01</date>
+        <motif>marriage</motif>
+        </reclamation>
+    <reclamation status="pending">
+        <type>absence</type>
+        <cin>11111224</cin>
+        <date>2025-12-27</date>
+        <motif>fievre</motif>
+        </reclamation>
+    <reclamation status="pending">
+        <type>Rue bloquée</type>
+        <cin>11111224</cin>
+        <date>2025-12-10</date>
+        <motif>Position: (34.785656268378894, 10.720896720886232) — Description: travaux</motif>
+        </reclamation>
+    <reclamation status="pending">
+        <type>Conteneur cassé</type>
+        <cin>11111224</cin>
+        <date>2025-12-10</date>
+        <motif>Position: (34.76328721275144, 10.738191604614258) — Description: destruction</motif>
+        </reclamation>
+    <reclamation status="pending">
+        <type>probleme_client</type>
+        <cin>11191935</cin>
+        <date>2025-12-10</date>
+        <motif>Point: (34.79936156412963, 10.771511547490348) — Problème: Rempli à 100% — Description: on ne peut plus mettre de la poubelle</motif>
+        </reclamation>
+    <reclamation status="admin">
+        <type>nouveau_point</type>
+        <cin>11191935</cin>
+        <date>2025-12-10</date>
+        <motif>Demande de nouveau point : type=papier, capacite=50, position=(34.794774760869636, 10.744285583496096)</motif>
+        </reclamation>
+    <reclamation status="technicien">
+        <type>probleme_client</type>
+        <cin>11191935</cin>
+        <date>2025-12-10</date>
+        <motif>Point: (34.7739, 10.76755) — Problème: Conteneur cassé — Description: la poubelle est eparpillé partout</motif>
+        </reclamation>
+    <reclamation status="admin">
+        <type>nouveau_point</type>
+        <cin>11191935</cin>
+        <date>2025-12-10</date>
+        <motif>Demande de nouveau point : type=ordure, capacite=60, position=(34.80182317626406, 10.762116909027101)</motif>
+        </reclamation>
+    <reclamation>
+        <type>nouveau_point</type>
+        <cin>11191935</cin>
+        <date>2025-12-11</date>
+        <motif>Demande de nouveau point : type=verre, capacite=200, position=(34.762761813706774, 10.738363265991211)</motif>
+        </reclamation>
+    <reclamation>
+        <type>probleme_client</type>
+        <cin>11191935</cin>
+        <date>2025-12-11</date>
+        <motif>Point: (34.7706, 10.7719) — Problème: Autre — Description: plein de chat dedans</motif>
+        </reclamation>
+    <reclamation>
+        <type>Autre</type>
+        <cin>11111224</cin>
+        <date>2025-12-11</date>
+        <motif>Position: (34.760395366298056, 10.690246578888036) — Description: roue vehicule degonglé</motif>
+        </reclamation>
+    <reclamation>
+        <type>absence</type>
+        <cin>11111224</cin>
+        <date>2026-01-10</date>
+        <motif>festival</motif>
+        </reclamation>
+    </reclamations>

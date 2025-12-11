@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, abort
 import xml.etree.ElementTree as ET
-
+from datetime import datetime
 # ================================
 # IMPORT DES SERVICES
 # ================================
@@ -11,6 +11,8 @@ from services.point_service import pointservice
 from services.indent_xml import indent
 from services.tournee_service import tourneeservice
 from services.probleme_carte_service import ProblemeCarteService
+from services.temps_tournee_service import TempsTourneeService
+from services.reclamation_service import ReclamationService
 
 
 # ================================
@@ -21,6 +23,8 @@ from models.chauffeur import chauffeur
 from models.vehicule import vehicule
 from models.point import point
 from models.tournee import tournee
+from models.temps_tournee import TempsTournee
+from models.reclamation import Reclamation
 import uuid
 # ================================
 # CONFIG FLASK
@@ -70,7 +74,9 @@ def login():
         if c.find("username").text == username and c.find("password").text == password:
             session["username"] = username
             session["role"] = "client"
+            session["cin"] = c.find("cin").text   # <-- IMPORTANT !
             return jsonify({"status": "ok", "role": "client"})
+
 
     # --------- Vérification EMPLOYÉ ----------
     for emp in employeservice.load_all():
@@ -82,9 +88,11 @@ def login():
     # --------- Vérification CHAUFFEUR ----------
     for ch in chauffeurservice.load_all():
         if ch.prenom == username and ch.cin == password:
-            session["username"] = username
+            session["username"] = ch.cin       # <-- CIN !
             session["role"] = "chauffeur"
+            session["chauffeur_nom"] = ch.prenom
             return jsonify({"status": "ok", "role": "chauffeur"})
+
 
     return jsonify({"status": "error"})
 
@@ -159,14 +167,15 @@ def register_post():
             session["role"] = "employe"
             return jsonify({"status": "ok", "role": "employe"})
 
-    # ------------------- Chauffeurs -------------------
-    for ch in chauffeurservice.load_all():
-        if ch.prenom == username and ch.cin == password:
-            session["username"] = username
-            session["role"] = "chauffeur"
-            return jsonify({"status": "ok", "role": "chauffeur"})
+# --------- Vérification CHAUFFEUR ----------
+        for ch in chauffeurservice.load_all():
+            if ch.prenom == username and ch.cin == password:
+                session["username"] = ch.cin            # ← CIN enregistré dans la session
+                session["chauffeur_nom"] = ch.prenom    # optionnel
+                session["role"] = "chauffeur"
+                print("Connexion chauffeur : CIN =", ch.cin)
+                return jsonify({"status": "ok", "role": "chauffeur"})
 
-    return jsonify({"status": "error"})
 
 
 @app.route("/logout")
@@ -459,6 +468,227 @@ def api_pb_admin():
 def gestion_reclamations_page():
     role_required("admin")   # seul admin peut voir
     return render_template("gestion_reclamations.html")
+@app.route("/chauffeur/tournee")
+def chauffeur_tournee_page():
+    role_required("chauffeur")     # sécurité
+    return render_template("chauffeur_tournee.html")
+@app.route("/api/chauffeur/tournee")
+def api_chauffeur_tournee():
+    role_required("chauffeur")
+
+    chauffeur_cin = session["username"]  # maintenant c’est le CIN 👍
+
+    toutes = tourneeservice.load_all()
+
+    mes_tournees = [
+        t.to_dict() for t in toutes
+        if t.chauffeur == chauffeur_cin
+    ]
+
+    return jsonify({"tournees": mes_tournees})
+@app.route("/chauffeur/rapport")
+def chauffeur_rapport_page():
+    role_required("chauffeur")
+    return render_template("rapport_fin_tournee.html")
+@app.route("/api/chauffeur/rapport")
+def api_chauffeur_rapport():
+    role_required("chauffeur")
+
+    cin = session["username"]  # CIN chauffeur
+
+    all_records = TempsTourneeService.load_all()
+
+    my_records = [
+        r.to_dict() for r in all_records if r.chauffeur_cin == cin
+    ]
+
+    return jsonify({"rapport": my_records})
+
+@app.route("/api/tournee/start", methods=["POST"])
+def api_tournee_start():
+    data = request.json
+    id_tournee = data["id_tournee"]
+    start = str(data["start"])
+    chauffeur = session["username"]
+
+    TempsTourneeService.start(id_tournee, chauffeur, start)
+    return jsonify({"status": "ok"})
+
+
+@app.route("/api/tournee/end", methods=["POST"])
+def api_tournee_end():
+    data = request.json
+    id_tournee = data["id_tournee"]
+    end = str(data["end"])
+    total = str(data["temps_total"])
+
+    TempsTourneeService.finish(id_tournee, end, total)
+    return jsonify({"status": "ok"})
+#----------------chauffeur,absence-----------------
+@app.route("/chauffeur/absence")
+def chauffeur_absence_page():
+    role_required("chauffeur")
+    return render_template("chauffeur_absence.html")
+@app.route("/api/chauffeur/incident", methods=["POST"])
+def api_incident():
+    role_required("chauffeur")
+
+    data = request.json
+    cin = session["username"]
+    date = data["date"]
+    motif = data["motif"]
+
+    ReclamationService.add("incident", cin, date, motif)
+
+    return jsonify({"status": "ok"})
+
+@app.route("/api/chauffeur/absence", methods=["POST"])
+def api_absence():
+    role_required("chauffeur")
+
+    data = request.json
+    cin = session["username"]
+    date = data["date"]
+    motif = data["motif"]
+
+    ok, msg = ReclamationService.add(
+        rec_type="absence",
+        cin=cin,
+        date=date,
+        motif=motif
+    )
+
+    if not ok:
+        return jsonify({"status": "error", "message": msg})
+
+    return jsonify({"status": "ok"})
+
+#-------chauffeur,incident--------------
+@app.route("/chauffeur/incident")
+def chauffeur_incident_page():
+    role_required("chauffeur")
+    return render_template("chauffeur_incident.html")
+@app.route("/api/reclamation/incident", methods=["POST"])
+def api_reclamation_incident():
+    role_required("chauffeur")
+
+    data = request.json
+    chauffeur = session["username"]  # CIN du chauffeur
+
+    # Construire le motif
+    motif = (
+        f"Position: ({data['lat']}, {data['lng']}) — "
+        f"Description: {data['description']}"
+    )
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    ok, msg = ReclamationService.add(
+        rec_type=data["type"],     # ← type sélectionné par le chauffeur
+        cin=chauffeur,
+        date=today,
+        motif=motif
+    )
+
+    if not ok:
+        return jsonify({"status": "error", "message": msg})
+
+    return jsonify({"status": "ok"})
+
+
+
+
+#------------client carte------------------
+@app.route("/client/carte")
+def client_carte_page():
+    role_required("client")
+    return render_template("client_points.html")
+@app.route("/client/signaler_probleme")
+def client_signaler_page():
+    role_required("client")
+    return render_template("client_signaler_probleme.html")
+@app.route("/api/client/signaler_probleme", methods=["POST"])
+def api_client_probleme():
+    role_required("client")
+
+    data = request.json
+    cin = session["cin"]
+
+    date = datetime.now().strftime("%Y-%m-%d")
+
+    motif = (
+        f"Point: ({data['lat']}, {data['lng']}) — "
+        f"Problème: {data['pb_type']} — "
+        f"Description: {data['description']}"
+    )
+
+    ok, msg = ReclamationService.add(
+        rec_type="probleme_client",
+        cin=cin,
+        date=date,
+        motif=motif
+    )
+
+    if not ok:
+        return jsonify({"status": "error", "message": msg})
+
+    return jsonify({"status": "ok"})
+
+@app.route("/client/nouveau_point")
+def client_new_point_page():
+    role_required("client")
+    return render_template("client_new_point.html")
+@app.route("/api/reclamation/nouveau_point", methods=["POST"])
+def api_reclamation_nouveau_point():
+    role_required("client")
+
+    data = request.json
+    cin = session["cin"]  # CIN du client !
+
+    motif = (
+        f"Demande de nouveau point : "
+        f"type={data['type']}, capacite={data['capacite']}, "
+        f"position=({data['lat']}, {data['lng']})"
+    )
+
+    ok, msg = ReclamationService.add(
+        rec_type="nouveau_point",
+        cin=cin,
+        date=datetime.now().strftime("%Y-%m-%d"),
+        motif=motif
+    )
+
+    if not ok:
+        return jsonify({"status": "error", "message": msg})
+
+    return jsonify({"status": "ok"})
+#--------------employe,reclamation----------------------
+@app.route("/employe/reclamations")
+def employe_reclamations_page():
+    role_required("employe")
+    return render_template("reclamations_employe.html")
+@app.route("/api/reclamations")
+def api_all_reclamations():
+    recs = ReclamationService.load_all()
+    return jsonify({"reclamations": recs})
+
+@app.route("/api/reclamations/update", methods=["POST"])
+def api_reclamations_update():
+    data = request.json
+    index = data["id"]
+    new_status = data["status"]
+
+    ok = ReclamationService.update_status(index, new_status)
+
+    return jsonify({"status": "ok" if ok else "error"})
+@app.route("/api/reclamations_admin")
+def api_reclamations_admin():
+    all_recs = ReclamationService.load_all()
+
+    # ne garder que celles dont le status est "admin"
+    filtered = [r for r in all_recs if r["status"] == "admin"]
+
+    return jsonify({"reclamations": filtered})
 
 # ================================
 # START SERVER

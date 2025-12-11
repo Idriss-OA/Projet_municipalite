@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Signaler un problème</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background-image: url('/static/img/bg-client.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* HEADER FLOATING */
+        .top-bar {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 12px 26px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+            z-index: 999;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* MAP FULLSCREEN */
+        #map {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            z-index: 1;
+        }
+
+        /* BUTTON BOTTOM */
+        .btn-report {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            padding: 15px 22px;
+            background: linear-gradient(135deg, #007bff, #0056d6);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+            cursor: pointer;
+            border: none;
+            z-index: 9999;
+            transition: 0.2s ease-in-out;
+        }
+
+        .btn-report:hover {
+            transform: scale(1.05);
+        }
+
+        /* MODAL BACKGROUND */
+        .modal-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; } 
+            to { opacity: 1; }
+        }
+
+        /* MODAL BOX */
+        .modal {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 28px;
+            width: 380px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal h3 {
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .modal label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* INPUTS */
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 6px;
+            margin-bottom: 14px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(5px);
+            resize: none;
+            font-size: 14px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            margin-top: 8px;
+            transition: 0.2s ease;
+        }
+
+        .btn-send {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #0064d6;
+        }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.35);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255,255,255,0.55);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="top-bar">
+    🚨 Signaler un problème
+</div>
+
+<!-- MAP -->
+<div id="map"></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal">
+        <h3>Signaler un problème</h3>
+
+        <label>Type de problème :</label>
+        <select id="pb_type">
+            <option value="Conteneur cassé">Conteneur cassé</option>
+            <option value="Rempli à 100%">Rempli à 100%</option>
+            <option value="Non vidé depuis longtemps">Non vidé depuis longtemps</option>
+            <option value="Autre">Autre</option>
+        </select>
+
+        <label>Description (optionnelle) :</label>
+        <textarea id="pb_desc" placeholder="Décrire ici..." rows="3"></textarea>
+
+        <button class="btn btn-send" onclick="sendProbleme()">Envoyer</button>
+        <button class="btn btn-cancel" onclick="closeModal()">Annuler</button>
+    </div>
+</div>
+
+<script src="/static/js/client_signale.js"></script>
+
+<script>
+function openModal() { 
+    document.getElementById("modalBg").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modalBg").style.display = "none";
+}
+</script>
+
+</body>
+</html>

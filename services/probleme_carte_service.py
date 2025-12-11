@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from services.indent_xml import indent
 from models.probleme_carte import ProblemeCarte
+from services.xml_validator import XMLValidator
 
 FILE = "data/problemes_carte.xml"
 

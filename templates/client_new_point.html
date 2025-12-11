@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Nouvelle demande de point de collecte</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background-image: url('/static/img/bg-client.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* FULLSCREEN MAP */
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        /* FLOATING BUTTON */
+        .add-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #007bff, #0056d6);
+            color: white;
+            font-weight: 600;
+            padding: 15px 24px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+            font-size: 16px;
+            transition: 0.25s;
+            z-index: 9999;
+        }
+        
+        .add-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* MODAL BACKGROUND */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            z-index: 10000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; } 
+            to { opacity: 1; }
+        }
+
+        /* MODAL CONTENT */
+        .modal-box {
+            width: 380px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-box h3 {
+            margin-top: 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* INPUTS */
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.7);
+            font-size: 15px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .btn-send {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #0059d1;
+        }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.35);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255,255,255,0.55);
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<!-- BUTTON -->
+<button class="add-btn" onclick="openForm()">
+    ➕ Demander un nouveau point
+</button>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal-box">
+        <h3>🚮 Nouvelle demande</h3>
+
+        <label>Type de conteneur :</label>
+        <select id="type">
+            <option value="plastique">Plastique</option>
+            <option value="verre">Verre</option>
+            <option value="papier">Papier</option>
+            <option value="ordure">Ordure</option>
+        </select>
+
+        <label>Capacité souhaitée :</label>
+        <input type="number" id="capacite" min="50" max="500" placeholder="Entre 50 et 500">
+
+        <button class="btn btn-send" onclick="envoyerDemande()">Envoyer</button>
+        <button class="btn btn-cancel" onclick="closeForm()">Annuler</button>
+    </div>
+</div>
+
+<script src="/static/js/client_new_point.js"></script>
+
+<script>
+function openForm() {
+    document.getElementById("modalBg").style.display = "flex";
+}
+function closeForm() {
+    document.getElementById("modalBg").style.display = "none";
+}
+</script>
+
+</body>
+</html>

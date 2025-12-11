@@ -22,6 +22,14 @@
         <password>ayech123</password>
         <lieu>poste</lieu>
         <postal>1120</postal>
-        <cin>12354</cin>
+        <cin>00012354</cin>
+        </client>
+    <client>
+        <username>majd</username>
+        <email>majd@gmail.com</email>
+        <password>majd2004</password>
+        <lieu>touzer</lieu>
+        <postal>2000</postal>
+        <cin>11158624</cin>
         </client>
     </clients>
